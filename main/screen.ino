@@ -43,8 +43,8 @@ void _screen_header() {
 
     // Datetime (if the axp192 PMIC is present, alternate between powerstats and time)
     if(axp192_found && millis()%8000 < 3000){
-        snprintf(buffer, sizeof(buffer), "%.1fV %.0fmA", axp.getBattVoltage()/1000, axp.getBattChargeCurrent() - axp.getBattDischargeCurrent());
-
+        // snprintf(buffer, sizeof(buffer), "%.1fV %.0fmA", axp.getBattVoltage()/1000, axp.getBattChargeCurrent() - axp.getBattDischargeCurrent());
+        gps_time(buffer, sizeof(buffer));
     } else {
         gps_time(buffer, sizeof(buffer));
     }
@@ -127,23 +127,23 @@ void screen_setup() {
 void screen_loop() {
     if (!display) return;
 
-    #ifdef T_BEAM_V10
-    if (axp192_found && pmu_irq) {
-        pmu_irq = false;
-        axp.readIRQ();
-        if (axp.isChargingIRQ()) {
-            baChStatus = "Charging";
-        } else {
-            baChStatus = "No Charging";
-        }
-        if (axp.isVbusRemoveIRQ()) {
-            baChStatus = "No Charging";
-        }
-        Serial.println(baChStatus); //Prints charging status to screen
-        digitalWrite(2, !digitalRead(2));
-        axp.clearIRQ();
-    }
-    #endif
+    // #ifdef T_BEAM_V10
+    // if (axp192_found && pmu_irq) {
+    //     pmu_irq = false;
+    //     axp.readIRQ();
+    //     if (axp.isChargingIRQ()) {
+    //         baChStatus = "Charging";
+    //     } else {
+    //         baChStatus = "No Charging";
+    //     }
+    //     if (axp.isVbusRemoveIRQ()) {
+    //         baChStatus = "No Charging";
+    //     }
+    //     Serial.println(baChStatus); //Prints charging status to screen
+    //     digitalWrite(2, !digitalRead(2));
+    //     axp.clearIRQ();
+    // }
+    // #endif
 
     display->clear();
     _screen_header();

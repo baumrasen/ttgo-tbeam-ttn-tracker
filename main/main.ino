@@ -26,9 +26,12 @@
 #include <TinyGPS++.h>
 #include <Wire.h>
 
+#define ARCH_ESP32
+
 #include "XPowersLib.h"
 XPowersLibInterface *PMU = NULL;
 #define PMU_WIRE_PORT   Wire
+#define HAS_PMU
 
 bool pmuInterrupt;
 
